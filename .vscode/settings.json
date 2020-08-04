@@ -1,0 +1,7 @@
+{
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "James-Yu.latex-workshop",
+    "editor.formatOnPaste": true,
+    "latex-workshop.chktex.enabled": true,
+    "editor.wordWrap": "on"
+}

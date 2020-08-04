@@ -3,21 +3,100 @@
 % \usepackage{graphicx}
 % \usepackage{hyperref}
 % \usepackage[utf8]{inputenc}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[T1]{fontenc}
+
+% For bibliography
+\usepackage[numbers]{natbib}
+\usepackage{url}
+
+\usepackage{csquotes}
 
 \title{AmDex: Reinsurance Data System}
 \author{Luca Ciraolo}
 \date{\today}
+
 \begin{document}
 \maketitle
+\begin{abstract}
+    This paper will introduce the problem which many companies face: outgrowing existing workflows. As companies scale, workflows must be modified and revised to establish more concrete solutions to ensure data integrity and cohesive functioning of employees. A specific company based in the reinsurance business facing these troubles will have their data management problems overhauled. The existing solutions will be evaluated as well as more general solutions which introduce more of the same issue: flexibility results in loss of integrity. Ultimately, a bespoke system is deemed to be necessary and an overview of the web technologies and the many moving parts that will need to be developed to create a functional, long-term, scalable solution will be presented. Finally, specific requirements of the project will be identified as well as measurable evaluation criteria which will be used to ascertain the ultimate success of the project.
+\end{abstract}
+
+\section{Background}
+This project is specific to the reinsurance industry. Knowledge of how the reinsurance industry operates is not deemed general knowledge and will therefore be explained in this section.
+
+\begin{itemize}
+    \item \blockquote[\cite{wikipedia_insurance}]{Insurance is a means of protection from financial loss. It is a form of risk management, primarily used to hedge against the risk of a contingent or uncertain loss.}
+    \item \blockquote[\cite{wikipedia_reinsurance}]{Reinsurance is insurance that an insurance company purchases from another insurance company to insulate itself (at least in part) from the risk of a major claims event.}
+\end{itemize}
+
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+
+
+
 \section{Introduction}
-Blah Blah Blah
+Over the summer I had the opportunity to intern for AMRE, a Managing General Agent (MGA)
+representing a panel of International Reinsurance Companies based in Europe and Asia. These
+“securities” grant AMRE an authority to seek, underwrite and manage business on their behalf under
+the terms of the Binding Authorities (contracts between AMRE and each security stating the types of
+business that AMRE can reinsure as well as limits of risks or geography, maximum premium to be
+generated, fees, etc). Business comes to AMRE through intermediaries (reinsurance brokers).
+Currently, AMRE underwrites approximately 40 contracts from 25 clients each year of account.
+Additionally, they must manage the run-off of previous years of account on behalf of their securities
+since 2014. As a consequence, they have to manage over 100 active contracts which require record
+keeping of results so that they can be reported to the securities quarterly. Each quarter, they record
+400-500 statements of accounts and payment advice which must each be audited, evidenced by
+original documentation sent by intermediaries and then reconciled into their system. AMRE has 15
+employees (analysts and underwriters).
+Currently they store all their business data in 6 large spreadsheets. This was convenient when the
+company was very small as the employees were all familiar with spreadsheet software but as the
+amount of data and size of the company grows, this workflow is becoming more and more
+inconvenient and inefficient.
+The data is spread across multiple files which requires a huge amount of human intervention to
+ensure data consistency. As the business is growing, increasing amounts of data need to be entered
+each day and because the workflow is so inefficient, AMRE has needed to hire more people to
+handle it. However, this has resulted in another major issue with spreadsheet software: only one
+user can edit a file at a given time. This means that hiring more people is only a short-term solution
+which is not at all scalable.
 \section{Summary of Literature Review}
 \section{Project Specification}
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
+Let create an example scenario. A boat owner would like financial protection of their boat in case of damage so they contact an insurance company and take out an insurance policy for the vessel. The insurance policy is a contract between the boat owner and the insurance company. The owner pays the insurance company yearly (this is known as an insurance premium) so that if it is damaged, the insurance company will pay for the repairs. The insurance company has policies with 100 boat owners which allows them to amass a pool of money (reserve) from the premiums they are collecting. Then on the rare occasion that a boat is damaged, the owner will make a claim to the insurer. The insurer will then use part of the reserve to pay the claim.
+
+The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
 \section{Evaluation Criteria}
 \section{Design}
 \begin{itemize}
     \item Database
-    \item API
+    \item APIs
     \item UI
 \end{itemize}
 \section{Development}
@@ -30,5 +109,8 @@ Blah Blah Blah
     \item CI/CD
 \end{itemize}
 \section{Summary}
+
+\bibliography{dissertation}
+\bibliographystyle{ieeetran}
 
 \end{document}
