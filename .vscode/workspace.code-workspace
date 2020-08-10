@@ -7,6 +7,7 @@
 	"settings": {
 		"latex-workshop.chktex.enabled": true,
 		"cSpell.words": [
+			"reinsure",
 			"reinsurers"
 		]
 	}

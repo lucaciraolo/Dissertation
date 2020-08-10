@@ -35,45 +35,48 @@ Let us create an example scenario. A boat owner would like financial protection 
 The problem with this system is if there are too many claims at once. This could happen if there is a natural disaster such as a hurricane which would result in the insurer taking a large financial loss. (Note that the insurer is legally obligated to hold a minimum amount in the reserve at all times.) In order for the insurer to protect themselves against this kind of catastrophe, they will themselves take out insurance with other insurers. This is known as reinsurance. For example, the insurer might go to 4 reinsurers and take out a policy with each covering 25\% of their portfolio. This effectively spreads the risk out. Reinsurance companies can also get insurance themselves. The result of all this insurance and reinsurance is the large scale spreading of risk.
 
 
-\section{Introduction}
-AM RE Syndicate Inc.\cite{amre} is a Managing General Agent (MGA), a type of reinsurance company. AM RE represents a panel of International Reinsurance Companies based in Europe and Asia. These represented companies, "securities", grant AM RE the authority to seek, underwrite and manage business on their behalf under the terms of the Binding Authorities
+\section{Problem Introduction}
+AM RE Syndicate Inc.\cite{amre} is a Managing General Agent (MGA), a type of reinsurance company. AM RE represents a panel of International Reinsurance Companies based in Europe and Asia. These represented companies, "securities", grant AM RE the authority to seek, underwrite and manage business on their behalf under the terms of the Binding Authorities ("binders"). These "binders" specify the types of business that AM RE can reinsure as well as limits of risks or geography, maximum premium to be generated, fees, etc. Business comes to AM RE through intermediaries (reinsurance brokers).
 
-(contracts between AMRE and each security stating the types of business that AMRE can reinsure as well as limits of risks or geography, maximum premium to be
-generated, fees, etc). Business comes to AMRE through intermediaries (reinsurance brokers).
-Currently, AMRE underwrites approximately 40 contracts from 25 clients each year of account.
-Additionally, they must manage the run-off of previous years of account on behalf of their securities
-since 2014. As a consequence, they have to manage over 100 active contracts which require record
-keeping of results so that they can be reported to the securities quarterly. Each quarter, they record
-400-500 statements of accounts and payment advice which must each be audited, evidenced by
-original documentation sent by intermediaries and then reconciled into their system. AMRE has 15
-employees (analysts and underwriters).
-Currently they store all their business data in 6 large spreadsheets. This was convenient when the
-company was very small as the employees were all familiar with spreadsheet software but as the
+Currently, AM RE underwrites approximately 40 contracts from 25 clients each year of account. Additionally, they must manage the run-off of previous years of account on behalf of their securities since 2014. As a consequence, they have to manage over 100 active contracts which require record keeping of results so that they can be reported to the securities quarterly. Each quarter, they record 400-500 statements of accounts and payment advice which must each be audited, evidenced by original documentation sent by intermediaries and then reconciled into their system.
+
+AM RE has approximately 15 employees (analysts and underwriters). Currently they store all their business data in 6 large spreadsheets. This was convenient when the company was very small as the employees were all familiar with spreadsheet software but as the
 amount of data and size of the company grows, this workflow is becoming more and more
-inconvenient and inefficient.
-The data is spread across multiple files which requires a huge amount of human intervention to
-ensure data consistency. As the business is growing, increasing amounts of data need to be entered
-each day and because the workflow is so inefficient, AMRE has needed to hire more people to
-handle it. However, this has resulted in another major issue with spreadsheet software: only one
-user can edit a file at a given time. This means that hiring more people is only a short-term solution
-which is not at all scalable.
+inconvenient and inefficient. The data is spread across multiple files which requires a huge amount of human intervention to ensure data consistency. As the business is growing, increasing amounts of data need to be entered each day and because the workflow is so inefficient, AM RE has been forced to hire more people to handle the rising workload. However, this has caused another major issue with spreadsheet software to surface: only one
+user can edit a file at a given time. This means that hiring more people is only a short-term solution which is not at all scalable.
+
 \section{Summary of Literature Review}
+
+Upon further research, these growing pains are common to most companies during their lifetimes. Common solutions were analysed and summarised in the following section.
+
+\subsection{Existing Solutions}
+
+Looking into off-the-shelf solutions was unfruitful as the majority of existing software is aimed at primary insurance rather than reinsurance businesses. The few other companies which operate in a similar fashion to AM RE have hired their own in-house development teams to build bespoke solutions for their specific workflows.
+
+The only other option is to use general business Software as a Service (SaaS) Solutions.
+
 \section{Project Specification}
-\section{Evaluation Criteria}
+\begin{itemize}
+    \item
+\end{itemize}
 \section{Design}
 \begin{itemize}
     \item Database
     \item APIs
     \item UI
 \end{itemize}
-\section{Development}
 \section{Testing}
 \begin{itemize}
     \item Technologies used
     \item Unit Testing
-    \item Integration Testing
+    \item E2E Testing
+    \item Load testing
     \item Coverage
     \item CI/CD
+\end{itemize}
+\section{Development Process}
+\begin{itemize}
+    \item Methodology (kanban)
 \end{itemize}
 \section{Summary}
 
