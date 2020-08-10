@@ -171,12 +171,30 @@ All the aggregation calculations are also performed in the API layer. Astronomy 
 Additionally, statement level results are always stored in local currency. However this is an issue when calculating treaty level results because a treaty can have many statements all of differing currencies. Therefore all statements need to cache their results in USD as well as local currency. This calculation was easily done as a beforeSave event hook on each statement.
 
 \subsection{User Interface}
+It was specifically requested by the client that the user interface had to be modern, clean and responsive. Therefore the decision was made to use ReactJS \cite{react} as the front end library because of it's huge popularity and excellent documentation. React's philosophy is based around creating re-usable components which allowed us to easily break down complex UI features into smaller blocks which can be tested independently.
 
+As the UI library, MaterialUI \cite{material_ui} was chosen because of it's modular component-based structure as well as it's clean, modern design.
 
+\subsubsection{Login Page}
+The purpose of the login page is to allow users to authenticate themselves. It acts as security layer and clients are automatically redirected to this page when they are not logged in. The page has an email field, password field and a button to sign in. It's design can be seen in Figure \ref{fig:login}. The page also displays error messages should the user's credentials be incorrect.
+
+\subsection{Securities Page}
+% TODO: expand on page layouts
+
+\subsection{Project Structure}
+In order to maintain an organised structure, the source code was split into the following hierarchy:
 \begin{itemize}
-    \item Project Structure
-    \item Deployment
+    \item client: the client side starting point
+    \item server: the server side starting point + any server side only code that we want to hide from the client.
+    \item tests: unit and end-to-end tests
+    \item imports \begin{itemize}
+              \item api: application business logic
+              \item ui: user interface components
+          \end{itemize}
 \end{itemize}
+
+\subsection{Deployment}
+In order to run the application in production, we made use of a number of different platforms. For the database, we opted for a hosted database-as-a-service platform, MongoDB Atlas \cite{mongodb_atlas}. This was chosen because it provides a three node replica set with continuous snapshots every 12 hours. As the database is the most valuable asset, it is necessary to have these snapshots as a failsafe as well as the increased security of a managed service.
 
 \section{Testing}
 \begin{itemize}
@@ -197,6 +215,20 @@ Additionally, statement level results are always stored in local currency. Howev
 \section{Evaluation}
 
 \section{Summary}
+
+\section{Appendix}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{login.png}
+    \caption{Login page design.}
+    \label{fig:login}
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{securities.png}
+    \caption{Securities page design.}
+    \label{fig:securities}
+\end{figure}
 
 \bibliography{dissertation}
 \bibliographystyle{IEEEtran}
