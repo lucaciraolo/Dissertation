@@ -124,8 +124,10 @@ Automatically take snapshots of all the data so it can be restored/viewed at any
 Be able to upload related files/attachments into the system so that they can be quickly viewed rather than having to find the files in a separate file system.
 \subsubsection*{Relational Data Consistency}
 Automatically handle relations between data to prevent human errors.
-\subsection*{Real-Time Data Aggregations}
+\subsubsection*{Real-Time Data Aggregations}
 Automatically update aggregations on the data whenever changes are made in real-time.
+\subsubsection*{Import Excel Data}
+Import the existing spreadsheet data automatically so that it can be re-imported at any time during the test period.
 
 \subsection{Specification changes}
 Since the specification was first defined, there have been some modifications.
@@ -138,11 +140,41 @@ Borderaux are reports which are sent to the securities every quarter. Originally
 Originally, we had planned to incorporate the tracking of payments (handled by the Cash Tracker spreadsheet) into the proposed system. However, the Accounting department later decided that they needed the flexibility that spreadsheets provide in order to continue operating. This was further discussed during a meeting with the CFO who also agreed that this should be handled outside of the system.
 
 \section{Design \& Implementation}
+\subsection{Database}
+The most complex part of this project is to analyse how the business data links together and how it will be stored in our application. It was decided in the literature review that using the MeteorJS framework would be the best fit for this application. According to the Meteor documentation \cite{meteor_collections_guide}, Meteor only supports MongoDB as a database so this would be used as our storage medium.
+
+A large amount of time was spent with the client going through the existing data structures stored in the Excel spreadsheets and deciding what was necessary to keep and how the data would be stored. After numerous iterations, we came up with the database structure in Figure \ref{fig:database}.
+
+\begin{figure}
+    \includegraphics[width=\linewidth]{database.png}
+    \caption{Database structure diagram.}
+    \label{fig:database}
+\end{figure}
+
+It is important to note that MongoDB automatically create the id's which are required. Also, some fields for example history is of flexible type which allows us to store any structure data within. This is necessary as it is impossible to predetermine the format of the changes.
+
+The next step was to import all the existing spreadsheet data into the database. A script was written making use of a spreadsheet parsing library, SheetJS \cite{sheetjs}, to insert and check the data into the database.
+
+This task ended up taking much longer than expected as the data verification checks ended up surfacing a huge number of inconsistencies in the existing data. These had to be rectified by hand which was very time consuming for the Analytics Team however it served as a perfect example of why a better system needed to be developed.
+
+While the aggregate results in the securities, binders and treaties can all be calculated dynamically, we decided to denormalise the results as a caching mechanism. This is because calculating the aggregations is very computationally intensive and it does not make sense to do these calculations every time a client requests the data as the results may not have actually changed if the underlying data is the same.
+
+\subsection{API}
+The API is used to perform all the application business logic and provides a layer on top of the database. This allows us to perform authorisation checks as well as data validation which is vital for security, rather than directly allowing clients to write to the database.
+
+A Meteor package called Astronomy\cite{astronomy} was used to provide the API layer. Astronomy was chosen as it is tightly integrated with Meteor and has built in support for validation. It can also be run on both server and client side which allows us to perform client side validation first using the same validation codebase. Once the client side validation has succeeded, the same checks are performed on the server side before any data is actually written to the database for security reasons.
+
+A major feature of Astronomy is it's ability to find the difference between two documents. This is key as it allowed us to easily calculate the difference between the same document before and after a change has been made. These differences can then be written to the document history array, providing the audit trail feature requested by the client.
+
+All the aggregation calculations are also performed in the API layer. Astronomy has an events system which allows us to run code before or after a document is saved. We made use of this when triggering efficient recalculations. For example, if a single statement is modified or added, only the linked treaty needs to be recalculated. When a treaty is modified or recalculated, only the relevant binders need to be recalculated. When a binder is modified or recalculated, only the relevant Security results need to be recalculated. By hooking into Astronomy's afterSave event, we were able to efficiently trigger recalculations on only the relevant documents, greatly reducing the computational cost of database writes.
+
+Additionally, statement level results are always stored in local currency. However this is an issue when calculating treaty level results because a treaty can have many statements all of differing currencies. Therefore all statements need to cache their results in USD as well as local currency. This calculation was easily done as a beforeSave event hook on each statement.
+
+\subsection{User Interface}
+
+
 \begin{itemize}
     \item Project Structure
-    \item Database
-    \item APIs
-    \item UI
     \item Deployment
 \end{itemize}
 
