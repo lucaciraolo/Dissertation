@@ -7,8 +7,15 @@
 	"settings": {
 		"latex-workshop.chktex.enabled": true,
 		"cSpell.words": [
+			"RE",
+			"RE’s",
+			"borderaux",
+			"re",
 			"reinsure",
-			"reinsurers"
+			"reinsurer",
+			"reinsurers",
+			"reinsurer’s",
+			"s"
 		]
 	}
 }
