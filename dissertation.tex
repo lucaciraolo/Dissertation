@@ -5,7 +5,9 @@
 % \usepackage[sfdefault]{roboto}
 % \usepackage[T1]{fontenc}
 
+
 % For figures
+\usepackage{float}
 \usepackage{graphicx}
 \graphicspath{{figures/}}
 
@@ -17,19 +19,21 @@
 \usepackage{csquotes}
 
 \title{AmDex: Reinsurance Data System}
-\author{Luca Ciraolo}
+\author{Luca Ciraolo, Candidate: 083178}
 \date{\today}
 
 \begin{document}
 \maketitle
 \begin{abstract}
-    % TODO Fix abstract
-    This paper will introduce the problem which many companies face: outgrowing existing workflows. As companies scale, workflows must be modified and revised to establish more concrete solutions to ensure data integrity and cohesive functioning of employees. A specific company based in the reinsurance business facing these troubles will have their data management problems overhauled. The existing solutions will be evaluated as well as more general solutions which introduce more of the same issue: flexibility results in loss of integrity. Ultimately, a bespoke system is deemed to be necessary and an overview of the web technologies and the many moving parts that will need to be developed to create a functional, long-term, scalable solution will be presented. Finally, specific requirements of the project will be identified as well as measurable evaluation criteria which will be used to ascertain the ultimate success of the project.
+    This paper will introduce the problem which many companies face: outgrowing existing workflows. As companies scale, workflows must be modified and revised to establish more concrete solutions to ensure data integrity and cohesive functioning of employees. A specific company based in the reinsurance business facing these troubles will have their data management problems overhauled. The existing solutions will be evaluated as well as more general solutions which introduce more of the same issue: flexibility results in loss of integrity. Ultimately, a bespoke system is deemed to be necessary. The new system, named the AmDex, is designed and built using the most modern web application technologies. The system is put in production use and is successful at meeting all specification points.
 \end{abstract}
+
+\section*{Declaration}
+I certify that all material which is not my own has been identified.
+
+(Signed Luca Ciraolo)
 \newpage
 
-% TODO: make table of contents
-% \section{Table of Contents}
 \tableofcontents
 \newpage
 
@@ -95,8 +99,7 @@ Upon further research, these growing pains are common to many companies during t
 
 Looking into off-the-shelf solutions was unfruitful as the majority of existing software is aimed at primary insurance rather than reinsurance businesses. The few other companies which operate in a similar fashion to AM RE have hired their own in-house development teams to build bespoke solutions for their specific workflows.
 
-The only other option is to use general business Software as a Service (SaaS) Solutions.
-% TODO either include existing solutions from lit review or summarise
+The only other option is to use general business Software as a Service (SaaS) Solutions. However these were all deemed too general as they are designed to cover a range of use cases and did not solve any of the problems that AM RE are facing.
 
 \section{Project Specification}
 After discussing the problem and research of existing solutions with the client, it was agreed that the best solution would be to build a full bespoke web-based data/administration system. In order for the solution to be successful, it will need to satisfy the following requirements:
@@ -179,7 +182,27 @@ As the UI library, MaterialUI \cite{material_ui} was chosen because of it's modu
 The purpose of the login page is to allow users to authenticate themselves. It acts as security layer and clients are automatically redirected to this page when they are not logged in. The page has an email field, password field and a button to sign in. It's design can be seen in Figure \ref{fig:login}. The page also displays error messages should the user's credentials be incorrect.
 
 \subsection{Securities Page}
-% TODO: expand on page layouts
+The securities page displays a table of securities and the aggregation results. The results update in real-time. Securities can be added using the plus button in the top right corner, edited using the pencil icons or deleted using the trash icons. It's design can be seen in Figure \ref{fig:securities}.
+
+\subsection{Binders Page}
+The binders view is accessed when clicking on a specific security in the list. It's design can be seen in Figure \ref{fig:binders}.
+
+\subsection{Treaties Page}
+The treaties page allows users to find and filter the list of treaties. Multiple filters can be applied at once giving the users maximum flexibility. It's design can be seen in Figure \ref{fig:treaties}.
+
+\subsection{Add/Edit Treaty Page}
+The add/edit treaty page allows users add a new treaty or edit an existing treaty. Similarly to the Statement page, you can see the history of changes that have been made by scrolling to the table at the bottom. The table provides usernames and timestamps of changes. It's design can be seen in Figure \ref{fig:treaty}.
+
+\subsection{Statements Page}
+The statements page allows users to find and filter the list of statements. Statements can be viewed in local currency or in USD by using the toggle switch in the top right. It's design can be seen in Figure \ref{fig:statements}.
+
+\subsection{Add/Edit Statement Page}
+The add/edit statement page allows users add a new statement or edit an existing statement. The system tries to help the user as much as possible by automatically calculating other values when a single value is entered. For example the view will automatically calculate the commission value when the gross premium is entered. However, the user still has the flexibility should they need to change the calculated value. It's design can be seen in Figure \ref{fig:statement}.
+
+\subsection{Admin Page}
+The admin page is only accessible to administrators. It allows them to add or edit user names as well as control the permissions of user accounts. It's design can be seen in Figure \ref{fig:admin}.
+
+
 
 \subsection{Project Structure}
 In order to maintain an organised structure, the source code was split into the following hierarchy:
@@ -195,42 +218,96 @@ In order to maintain an organised structure, the source code was split into the 
 
 \subsection{Deployment}
 In order to run the application in production, we made use of a number of different platforms. For the database, we opted for a hosted database-as-a-service platform, MongoDB Atlas \cite{mongodb_atlas}. This was chosen because it provides a three node replica set with continuous snapshots every 12 hours. As the database is the most valuable asset, it is necessary to have these snapshots as a failsafe as well as the increased security of a managed service.
+For the main Meteor application, a server was rented from DigitalOcean\cite{digitalocean}. The server was provisioned with Docker, a containerisation platform which was ran the meteor bundle. SSL certificates were obtained from LetsEncrypt to provide https encryption.
 
 \section{Testing}
-\begin{itemize}
-    \item Technologies used
-    \item Unit Testing
-    \item E2E Testing
-    \item Load testing
-    \item Coverage
-    \item CI/CD
-\end{itemize}
+In order to be confident that the application is robust, the system must be rigorously tested. This can be done manually, however repeating a set of tests by hand every time a feature is added is a waste of developer time. Thus, automated testing was used.
+
+There are a variety of different types of testing which must be done to sufficiently cover the application. Unit testing involves isolating small components of the application and testing them individually. These tests can be run very quickly, however are very time consuming to create as a huge number of unit tests have to be written in order to sufficiently cover an entire application. The Mocha unit testing framework \cite{mocha} was used along with the Chai \cite{chai} assertion library to test the API. The Enzyme testing library was used to unit test the front end components individually.
+
+End-to-end testing is where full user interactions with the application are simulated in order to verify that all layers of the system are working correctly together. For web-applications such as this, end-to-end (e2e) testing is done by controlling a full web browser and simulating user clicks and interactions. This method is much more time-efficient as a single e2e test can cover a large amount of code. After consulting with the client, it was decided that more focus should be put on the e2e tests than unit tests. The Cypress testing framework was used to perform the e2e tests as it allows us to fully control a web browser and assert that specific events occur after specific user interactions.
+
+Load tests are used to ensure that the application will be able to perform with a specific number of users connected. We used the Cypress testing framework to simulate 50 users interacting with the system simultaneously in order to verify that the system can handle the load.
 
 \section{Development Process}
-\begin{itemize}
-    \item Methodology (kanban) + gantt chart
-    \item Version Control
-\end{itemize}
+The development process was carried out in an AGILE format. The developer had short daily meetings with the Head of Analytics to discuss progress during the main development period (Oct 2019 - Jan 2020) and then weekly meetings during the testing/evaluation phase (Jan 2020 - March 2020).
 
-\section{Evaluation}
+A Kanban board was used to track and discuss specific tasks on GitHub a snapshot of which can be seen in Figure \ref{fig:kanban}. Once all the main tasks had been identified, a gantt chart was made to estimate the delivery timeline and was regularly updated during the development. Git was used as the source code Version Control System. Each time a new feature or bug was worked on, a new branch was created and then eventually merged back into the master branch once completed. This was done to allow multiple features to be worked on simultaneously without causing code conflicts.
 
-\section{Summary}
+An automated Continuous Integration pipeline was set up to automatically run tests on every commit and prevent merging into master on test failure. The master branch was automatically deployed to a staging server for manual testing. The decision was made to manually deploy to production rather than have it done automatically as an extra layer of security.
 
+\section{Evaluation \& Summary}
+In order to evaluate and test the system, it was put in production use in January 2020. The newly developed system was used alongside the existing Excel spreadsheets as a backup plan in case the system did not function as expected. This meant that data had to be entered and modified in both systems at once, however, it was a necessary sacrifice in order to have full confidence in the new system. During the test period of 2 months, some bugs surfaced and were fixed. The daily meetings during the development phase were switched to weekly meetings as it was deemed unnecessary to have them daily at that point.
+
+The testing phase was a resounding success and since March 2020, AM RE has been exclusively using the AmDex system as their core business data platform. The Head of Analytics was asked to evaluate the effectiveness of the AmDex and said this:
+
+\enquote{The AM RE team is extremely pleased with the new AmDex system overall. It has significantly reduced the workload and increased the efficiency of every member of the Analytics Team! It took a little time for people to learn how to use it correctly but now we are in full swing and have immense confidence in our data! The history feature is the most useful to us so we can see exactly who to talk to if we have questions regarding a change that was made. It has been a real pleasure working with Luca and we look forward to continuing development in the future.}
+
+Furthermore, every feature of the revised specification was met. This project demonstrates the point that Christopher Mims made when he said that "Every company is now a tech company"\cite{mims_2018}. Nearly every industry can be made more efficient with the right tools, now we just need more developers to make them.
+
+\bibliography{dissertation}
+\bibliographystyle{IEEEtran}
+
+\newpage
 \section{Appendix}
 
-\begin{figure}
+\begin{figure}[H]
     \includegraphics[width=\linewidth]{login.png}
     \caption{Login page design.}
     \label{fig:login}
 \end{figure}
 
-\begin{figure}
+
+\begin{figure}[H]
     \includegraphics[width=\linewidth]{securities.png}
     \caption{Securities page design.}
     \label{fig:securities}
 \end{figure}
 
-\bibliography{dissertation}
-\bibliographystyle{IEEEtran}
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{binders.png}
+    \caption{Binders for a specific security page design.}
+    \label{fig:binders}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{treaties.png}
+    \caption{Treaties list page design.}
+    \label{fig:treaties}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{treaty.png}
+    \caption{Single treaty page design.}
+    \label{fig:treaty}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{statements.png}
+    \caption{Statements list page design.}
+    \label{fig:statements}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{statement.png}
+    \caption{Single statement page design.}
+    \label{fig:statement}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{admin.png}
+    \caption{Admin page design.}
+    \label{fig:admin}
+\end{figure}
+
+
+
+\begin{figure}[H]
+    \includegraphics[width=\linewidth]{kanban.png}
+    \caption{Kanban development board used to track issues and tasks.}
+    \label{fig:kanban}
+\end{figure}
+
+
 
 \end{document}
